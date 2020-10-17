@@ -1,20 +1,19 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class Task039Impl implements Task039 {
     @Override
     public Map<Character, String> getEncoding(Map<Character, Integer> charFrequencies) {
         ArrayList<CodeTreeNode> codeTreeNodes = new ArrayList<>();
         for (Character c : charFrequencies.keySet()) {
-            codeTreeNodes.add(new CodeTreeNode(c,charFrequencies.get(c)));
+            codeTreeNodes.add(new CodeTreeNode(c, charFrequencies.get(c)));
         }
         CodeTreeNode treeNodes = CodeTreeNode.huffman(codeTreeNodes);
 
-        TreeMap<Character, String> map = new TreeMap<>();
+        HashMap<Character, String> map = new HashMap<>();
         for (Character c : charFrequencies.keySet()) {
-            map.put(c,treeNodes.getCodeOfCharacter(c, ""));
+            map.put(c, treeNodes.getCodeOfCharacter(c, ""));
         }
 
         return map;
@@ -22,11 +21,27 @@ public class Task039Impl implements Task039 {
 
     @Override
     public String getEncodedString(Map<Character, Integer> charFrequencies, String string) {
-        return null;
+        Map<Character, String> codeTable = getEncoding(charFrequencies);
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Character character : string.toCharArray()) {
+            String code = codeTable.get(character);
+            stringBuilder.append(code);
+        }
+
+        return stringBuilder.toString();
     }
 
     @Override
     public String getDecodedString(Map<Character, Integer> charFrequencies, String encodedString) {
-        return null;
+        ArrayList<CodeTreeNode> codeTreeNodes = new ArrayList<>();
+
+        for (Character c : charFrequencies.keySet()) {
+            codeTreeNodes.add(new CodeTreeNode(c, charFrequencies.get(c)));
+        }
+
+        CodeTreeNode treeNodes = CodeTreeNode.huffman(codeTreeNodes);
+
+        return CodeTreeNode.getDecodingString(treeNodes, encodedString);
     }
 }

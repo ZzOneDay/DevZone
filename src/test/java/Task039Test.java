@@ -116,7 +116,7 @@ public class Task039Test {
                         'C', 23,
                         'D', 15,
                         'E', 23,
-                        'F', 6)), "FABCAEFD");
+                        'F', 6)), "FABCAEFD"); //FABCAEFD
         assertEquals("Incorrect encoding", targetEncodedString, resultEncodedString);
     }
 
